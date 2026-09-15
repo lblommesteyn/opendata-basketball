@@ -1,0 +1,19 @@
+114086 1233
+114099 1128
+114169 1192
+114234 1135
+114243 1244
+178442 1197
+179612 1244
+184439 1154
+188630 1136
+191313 1074
+closeout         n=  568  dA(+1.5s) mean=  -4.66 median=  -6.00 P(dA>0)=0.46  gain-to-peak= 90.17  half-life median=0.60s repaired-within-3s=0.53 (n=381)
+drive            n=  641  dA(+1.5s) mean=  55.14 median=  51.38 P(dA>0)=0.80  gain-to-peak=164.87  half-life median=0.60s repaired-within-3s=0.32 (n=496)
+handoff          n=  396  dA(+1.5s) mean=  18.85 median=  18.82 P(dA>0)=0.61  gain-to-peak=118.61  half-life median=0.60s repaired-within-3s=0.43 (n=304)
+isolation        n=  177  dA(+1.5s) mean=  20.16 median=  19.66 P(dA>0)=0.56  gain-to-peak=115.72  half-life median=0.40s repaired-within-3s=0.44 (n=135)
+null             n= 1500  dA(+1.5s) mean=  10.46 median=   7.97 P(dA>0)=0.55  gain-to-peak= 78.08  half-life median=0.40s repaired-within-3s=0.46 (n=1127)
+off_ball_screen  n= 1028  dA(+1.5s) mean=  22.67 median=  20.84 P(dA>0)=0.63  gain-to-peak=102.71  half-life median=0.60s repaired-within-3s=0.53 (n=738)
+pass             n= 4577  dA(+1.5s) mean=   2.88 median=   0.83 P(dA>0)=0.50  gain-to-peak= 88.96  half-life median=0.60s repaired-within-3s=0.46 (n=2026)
+pick             n= 1473  dA(+1.5s) mean=  60.81 median=  63.66 P(dA>0)=0.84  gain-to-peak=154.71  half-life median=0.60s repaired-within-3s=0.46 (n=1151)
+shot             n= 1377  dA(+1.5s) mean=  24.93 median=  24.26 P(dA>0)=0.64  gain-to-peak= 57.89  half-life median=0.40s repaired-within-3s=0.36 (n=757)

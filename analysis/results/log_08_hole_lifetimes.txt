@@ -1,0 +1,16 @@
+holes tracked: 15795  (tau=0.5, >= 6 cells, >= 5.0 ft from every offensive player)
+lifetime: median 0.60s, mean 1.97s, p90 5.60s
+fraction used by the ball before closing: 0.083
+used-rate by lifetime: 0-0.6s: 0.00, 0.6-1.2s: 0.01, 1.2-2.4s: 0.04, 2.4-99s: 0.30
+used-rate by max mass tercile: small: 0.00, mid: 0.01, large: 0.24
+
+holes born within 1 s after the event, by kind:
+closeout         n=  601  holes born=0.72  mean lifetime=0.85s  max mass=35.2  P(any used)=0.03
+drive            n=  660  holes born=0.73  mean lifetime=0.74s  max mass=32.1  P(any used)=0.01
+handoff          n=  417  holes born=0.85  mean lifetime=1.40s  max mass=49.6  P(any used)=0.04
+isolation        n=  180  holes born=0.74  mean lifetime=0.94s  max mass=18.4  P(any used)=0.01
+null             n= 1500  holes born=0.67  mean lifetime=1.24s  max mass=38.2  P(any used)=0.04
+off_ball_screen  n= 1103  holes born=0.78  mean lifetime=1.54s  max mass=55.9  P(any used)=0.05
+pass             n= 4786  holes born=0.63  mean lifetime=1.50s  max mass=74.9  P(any used)=0.04
+pick             n= 1520  holes born=0.76  mean lifetime=1.19s  max mass=51.1  P(any used)=0.03
+shot             n= 1459  holes born=0.44  mean lifetime=0.46s  max mass=15.9  P(any used)=0.02

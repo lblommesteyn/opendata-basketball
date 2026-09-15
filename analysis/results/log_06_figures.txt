@@ -1,0 +1,12 @@
+done models
+done curves
+C:\Users\16476\saipa\scripts\holes\06_figures.py:96: MatplotlibDeprecationWarning: The 'labels' parameter of boxplot() has been renamed 'tick_labels' since Matplotlib 3.9; support for the old name will be dropped in 3.11.
+  bp = ax.boxplot(data, labels=kinds, showfliers=False, patch_artist=True)
+C:\Users\16476\saipa\scripts\holes\06_figures.py:96: MatplotlibDeprecationWarning: The 'labels' parameter of boxplot() has been renamed 'tick_labels' since Matplotlib 3.9; support for the old name will be dropped in 3.11.
+  bp = ax.boxplot(data, labels=kinds, showfliers=False, patch_artist=True)
+C:\Users\16476\saipa\scripts\holes\06_figures.py:96: MatplotlibDeprecationWarning: The 'labels' parameter of boxplot() has been renamed 'tick_labels' since Matplotlib 3.9; support for the old name will be dropped in 3.11.
+  bp = ax.boxplot(data, labels=kinds, showfliers=False, patch_artist=True)
+done deltas
+done validation
+done robustness
+done agreement

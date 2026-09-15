@@ -1,0 +1,106 @@
+== Action values: mean dA (A(+1.5s) - A(-1s)) in ft^2*pts, bootstrap 95% CI ==
+null (no action) mean dA = 10.9, mean gain-to-peak = 81.5
+
+closeout                           n=  449  dA=   -4.6 [ -12.1,    3.4]  excess over null= -15.6
+drive                              n=  512  dA=   55.1 [  49.2,   61.2]  excess over null=  44.2
+handoff                            n=  325  dA=   18.8 [  11.8,   25.3]  excess over null=   7.9
+isolation                          n=  146  dA=   20.2 [   9.0,   31.3]  excess over null=   9.2
+null                               n= 1351  dA=   10.9 [   6.7,   15.1]  excess over null=   0.0
+off_ball_screen                    n=  808  dA=   22.7 [  18.1,   27.4]  excess over null=  11.7
+pass                               n= 2397  dA=    2.8 [  -0.6,    5.7]  excess over null=  -8.2
+pick                               n= 1176  dA=   60.7 [  57.2,   64.2]  excess over null=  49.8
+shot                               n=  904  dA=   26.4 [  21.2,   31.8]  excess over null=  15.4
+
+== Mann-Whitney vs null (two-sided) ==
+closeout             p=1.82e-04
+drive                p=5.68e-31
+handoff              p=6.15e-02
+isolation            p=1.84e-01
+off_ball_screen      p=1.05e-04
+pass                 p=9.16e-04
+pick                 p=1.91e-71
+shot                 p=4.74e-07
+
+== Splits by SkillCorner context ==
+pick bhrDefType=blitz              n=    3  dA=    nan [   nan,    nan]  excess over null=   nan
+pick bhrDefType=ice                n=   11  dA=   51.8 [  10.4,   85.0]  excess over null=  40.9
+pick bhrDefType=over               n=  775  dA=   69.6 [  65.1,   73.7]  excess over null=  58.6
+pick bhrDefType=switch             n=  168  dA=   46.7 [  36.4,   56.5]  excess over null=  35.7
+pick bhrDefType=under              n=  219  dA=   40.3 [  32.6,   47.9]  excess over null=  29.4
+pick scrDefType=blitz              n=    3  dA=    nan [   nan,    nan]  excess over null=   nan
+pick scrDefType=ice                n=   11  dA=   51.8 [  14.9,   84.1]  excess over null=  40.9
+pick scrDefType=none               n=    5  dA=   59.8 [  29.4,   91.4]  excess over null=  48.9
+pick scrDefType=show               n=  485  dA=   69.0 [  63.6,   74.5]  excess over null=  58.0
+pick scrDefType=soft               n=  504  dA=   57.5 [  52.3,   62.6]  excess over null=  46.6
+pick scrDefType=switch             n=  168  dA=   46.7 [  36.6,   56.2]  excess over null=  35.7
+pick locationType=middle           n=  734  dA=   66.4 [  62.1,   70.7]  excess over null=  55.5
+pick locationType=stepUp           n=  154  dA=   75.5 [  65.0,   85.6]  excess over null=  64.6
+pick locationType=wing             n=  288  dA=   38.2 [  30.8,   45.5]  excess over null=  27.3
+pick direct=False                  n=  535  dA=   57.2 [  51.8,   62.6]  excess over null=  46.3
+pick direct=True                   n=  641  dA=   63.6 [  58.5,   68.3]  excess over null=  52.7
+drive blowby=False                 n=  402  dA=   56.7 [  49.6,   63.4]  excess over null=  45.7
+drive blowby=True                  n=  110  dA=   49.5 [  38.9,   61.5]  excess over null=  38.6
+drive endType=interiorPass         n=   50  dA=   56.4 [  38.5,   75.9]  excess over null=  45.4
+drive endType=kickout              n=  147  dA=   58.3 [  46.1,   69.9]  excess over null=  47.4
+drive endType=pullout              n=    5  dA=   79.4 [  28.8,  139.7]  excess over null=  68.4
+drive endType=pullup               n=   75  dA=   46.4 [  32.6,   60.8]  excess over null=  35.5
+drive endType=shotNearBasket       n=  187  dA=   55.1 [  45.6,   65.3]  excess over null=  44.2
+drive endType=stoppage             n=   24  dA=   57.4 [  35.7,   78.3]  excess over null=  46.4
+drive endType=turnover             n=   24  dA=   53.5 [  20.9,   91.3]  excess over null=  42.5
+drive category=closeout            n=   92  dA=   52.9 [  37.4,   68.1]  excess over null=  42.0
+drive category=handoff             n=   36  dA=   59.4 [  39.2,   80.8]  excess over null=  48.5
+drive category=iso                 n=   62  dA=   31.2 [  16.0,   46.7]  excess over null=  20.3
+drive category=miscellaneous       n=   48  dA=   55.1 [  31.5,   78.0]  excess over null=  44.2
+drive category=offBallScreen       n=   14  dA=   60.8 [  16.8,   97.3]  excess over null=  49.9
+drive category=pick                n=  260  dA=   60.7 [  52.9,   68.6]  excess over null=  49.8
+closeout bhrAction=drive           n=  101  dA=   -3.3 [ -20.2,   14.7]  excess over null= -14.2
+closeout bhrAction=other           n=   49  dA=  -12.0 [ -34.5,   10.8]  excess over null= -22.9
+closeout bhrAction=pass            n=   83  dA=  -11.9 [ -30.1,    5.9]  excess over null= -22.8
+closeout bhrAction=shot            n=  215  dA=   -1.3 [ -13.1,    9.7]  excess over null= -12.2
+off_ball_screen cutterDefType=switch n=   45  dA=   31.2 [  11.9,   52.2]  excess over null=  20.2
+off_ball_screen cutterDefType=top lock n=    3  dA=    nan [   nan,    nan]  excess over null=   nan
+off_ball_screen cutterDefType=trail n=  441  dA=   29.5 [  23.6,   35.6]  excess over null=  18.6
+off_ball_screen cutterDefType=whip n=  319  dA=   11.7 [   4.5,   18.9]  excess over null=   0.7
+off_ball_screen screenerDefType=drop n=  594  dA=   20.1 [  14.9,   25.1]  excess over null=   9.2
+off_ball_screen screenerDefType=jam n=  122  dA=   17.4 [   6.2,   29.2]  excess over null=   6.4
+off_ball_screen screenerDefType=show n=   47  dA=   60.8 [  40.4,   81.3]  excess over null=  49.9
+off_ball_screen screenerDefType=switch n=   45  dA=   31.2 [  11.6,   52.0]  excess over null=  20.2
+off_ball_screen ledToShot=False    n=  694  dA=   23.9 [  18.9,   28.7]  excess over null=  12.9
+off_ball_screen ledToShot=True     n=  114  dA=   15.5 [   2.9,   28.0]  excess over null=   4.6
+pass distance <12ft                n=  642  dA=   13.3 [   7.8,   18.9]  excess over null=   2.4
+pass distance 12-20                n=  882  dA=    2.5 [  -2.9,    7.8]  excess over null=  -8.4
+pass distance 20-30                n=  650  dA=   -8.3 [ -14.3,   -2.2]  excess over null= -19.2
+pass distance >30 (skip)           n=  133  dA=  -10.6 [ -23.5,    2.5]  excess over null= -21.6
+pass assistOpp=False               n= 1859  dA=   -2.0 [  -5.3,    1.4]  excess over null= -13.0
+pass assistOpp=True                n=  538  dA=   19.3 [  11.9,   26.6]  excess over null=   8.3
+
+== Pre-shot advantage vs shot labels (A at -1..0 s before release) ==
+shot contestLevel=average    n= 258  pre-A= 321.1 [ 308.7, 333.6]
+shot contestLevel=blocked    n=  39  pre-A= 359.6 [ 326.8, 394.5]
+shot contestLevel=light      n=  53  pre-A= 346.0 [ 317.4, 375.1]
+shot contestLevel=open       n= 170  pre-A= 350.1 [ 335.0, 364.8]
+shot contestLevel=plus       n= 372  pre-A= 349.9 [ 339.0, 361.0]
+shot catchAndShoot=False      n= 489  pre-A= 346.8 [ 337.3, 356.1]
+shot catchAndShoot=True       n= 393  pre-A= 332.9 [ 322.8, 343.3]
+shot outcome=False      n= 574  pre-A= 340.0 [ 331.0, 349.6]
+shot outcome=True       n= 330  pre-A= 346.5 [ 335.1, 357.7]
+Spearman(pre-shot A, SkillCorner shotQuality) = 0.215 (p=8.1e-11, n=892)
+Spearman(pre-shot A, closest defender distance) = -0.148 (n=892)
+
+== Half-life / repair by kind (finite = repaired within 3 s) ==
+closeout             n= 381  repaired within 3s: 0.53   median half-life (repaired) = 0.60s
+drive                n= 496  repaired within 3s: 0.32   median half-life (repaired) = 0.60s
+handoff              n= 304  repaired within 3s: 0.43   median half-life (repaired) = 0.60s
+isolation            n= 135  repaired within 3s: 0.44   median half-life (repaired) = 0.40s
+null                 n=1097  repaired within 3s: 0.47   median half-life (repaired) = 0.40s
+off_ball_screen      n= 738  repaired within 3s: 0.53   median half-life (repaired) = 0.60s
+pass                 n=2017  repaired within 3s: 0.46   median half-life (repaired) = 0.60s
+pick                 n=1146  repaired within 3s: 0.46   median half-life (repaired) = 0.60s
+shot                 n= 693  repaired within 3s: 0.39   median half-life (repaired) = 0.40s
+
+== Does the advantage an action creates convert? (chance points by dA tercile, per kind) ==
+pick             pts/chance by dA tercile: low=0.88 mid=0.81 high=0.91   spearman=0.014 p=6.38e-01 n=1176
+off_ball_screen  pts/chance by dA tercile: low=0.85 mid=0.82 high=0.84   spearman=-0.013 p=7.22e-01 n=808
+drive            pts/chance by dA tercile: low=1.01 mid=1.00 high=0.81   spearman=-0.080 p=6.96e-02 n=512
+pass             pts/chance by dA tercile: low=0.84 mid=0.89 high=0.92   spearman=0.026 p=2.00e-01 n=2397
+handoff          pts/chance by dA tercile: low=0.96 mid=0.75 high=0.81   spearman=-0.066 p=2.36e-01 n=325

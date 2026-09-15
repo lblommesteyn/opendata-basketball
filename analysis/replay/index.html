@@ -1,0 +1,276 @@
+<title>Holes in the Defense</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+  :root {
+    --bg: #f2efe9; --panel: #ffffff; --panel-2: #e9e5dc; --ink: #1a1f27; --muted: #667080; --line: #d5d0c6;
+    --off: #2f7fe0; --def: #e0473c; --ball: #d98f1c; --accent: #8b4fe0; --vor: #9aa3b2; --court: #3a3f47;
+    --heat-bg: #0b0d12;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0f1319; --panel: #171c24; --panel-2: #1f2631; --ink: #e8ecf2; --muted: #8b95a5; --line: #2a3240;
+      --off: #5aa9ff; --def: #ff5d52; --ball: #f5b041; --accent: #c084fc; --vor: #6b7584; --court: #d5dbe6;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0f1319; --panel: #171c24; --panel-2: #1f2631; --ink: #e8ecf2; --muted: #8b95a5; --line: #2a3240;
+    --off: #5aa9ff; --def: #ff5d52; --ball: #f5b041; --accent: #c084fc; --vor: #6b7584; --court: #d5dbe6;
+  }
+  * { box-sizing: border-box; }
+  body { background: var(--bg); color: var(--ink); font-family: "IBM Plex Sans", system-ui, sans-serif; padding-block: 20px; padding-inline: 20px; margin: 0; }
+  h1, h2, .num, .chip, .stat b { font-family: "Barlow Condensed", "Arial Narrow", sans-serif; }
+  header { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 20px; margin-bottom: 14px; }
+  h1 { font-size: 34px; font-weight: 700; margin: 0; letter-spacing: 0.01em; text-wrap: balance; }
+  header p { margin: 0; color: var(--muted); max-width: 62ch; }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+  .chip { border: 1px solid var(--line); background: var(--panel); color: var(--ink); border-radius: 999px; padding: 5px 12px; font-size: 15px; font-weight: 600; cursor: pointer; letter-spacing: 0.02em; }
+  .chip[aria-pressed="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+  .chip:focus-visible, button:focus-visible, input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .toggles { display: flex; flex-wrap: wrap; gap: 6px 22px; margin: -4px 0 12px; font-size: 13px; }
+  .toggles label { display: flex; align-items: center; gap: 6px; cursor: pointer; }
+  .toggles .hint { color: var(--muted); }
+  .layout { display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(260px, 0.8fr); gap: 16px; }
+  @media (max-width: 860px) { .layout { grid-template-columns: 1fr; } }
+  .court-wrap { background: var(--heat-bg); border-radius: 6px; padding: 8px; }
+  canvas { display: block; width: 100%; height: auto; max-width: 100%; }
+  .rail { display: flex; flex-direction: column; gap: 12px; }
+  .panel { background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 12px 14px; }
+  .panel h2 { font-size: 13px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin: 0 0 8px; }
+  .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .stat { display: flex; flex-direction: column; gap: 2px; }
+  .stat b { font-size: 30px; font-weight: 600; line-height: 1; font-variant-numeric: tabular-nums; }
+  .stat span { font-size: 12px; color: var(--muted); }
+  .stat.acc b { color: var(--accent); }
+  .roster { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 14px; font-size: 13px; }
+  .roster div { display: flex; align-items: center; gap: 6px; }
+  .dot { width: 9px; height: 9px; border-radius: 50%; display: inline-block; flex: none; }
+  .events { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 4px; max-height: 190px; overflow-y: auto; font-size: 13px; }
+  .events li { display: grid; grid-template-columns: 44px 1fr; gap: 8px; padding: 3px 6px; border-radius: 4px; cursor: pointer; font-variant-numeric: tabular-nums; }
+  .events li.now { background: var(--panel-2); }
+  .events li .k { font-weight: 600; }
+  .events li .w { color: var(--muted); }
+  .chart-wrap { margin-top: 14px; background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 10px 14px 6px; }
+  .controls { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-top: 8px; }
+  button.tb { font: inherit; font-weight: 600; background: var(--ink); color: var(--bg); border: 0; border-radius: 4px; padding: 6px 14px; cursor: pointer; }
+  button.tb.secondary { background: var(--panel-2); color: var(--ink); }
+  input[type=range] { flex: 1 1 200px; accent-color: var(--accent); }
+  .legend { display: flex; flex-wrap: wrap; gap: 14px; font-size: 12px; color: var(--muted); margin-top: 6px; }
+  .legend i { display: inline-block; width: 18px; height: 3px; vertical-align: middle; margin-right: 5px; }
+  .heatbar { height: 8px; border-radius: 3px; width: 90px; display: inline-block; vertical-align: middle; margin-right: 5px;
+    background: linear-gradient(90deg, #000004, #3b0f70, #8c2981, #de4968, #fe9f6d, #fcfdbf); }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<header>
+  <h1>Holes in the Defense</h1>
+  <p>Liga ACB, <span id="gameTeams"></span>. Bright regions are court space the offense will reach before the defense <em>and</em> that is worth shooting from. A counts the space worth at least half a point.</p>
+</header>
+
+<div class="chips" id="chips" role="group" aria-label="Choose a possession"></div>
+<div class="toggles">
+  <label><input type="checkbox" id="holesOnly"> Show empty holes only <span class="hint">(space more than 5 ft from every attacker)</span></label>
+  <label><input type="checkbox" id="showRadius" checked> 5 ft occupancy circles</label>
+  <label><input type="checkbox" id="showContour" checked> H = 0.5 contour</label>
+</div>
+
+<div class="layout">
+  <div class="court-wrap"><canvas id="court" width="1000" height="1070" aria-label="Half-court replay"></canvas></div>
+  <aside class="rail">
+    <div class="panel">
+      <h2 id="chanceTitle">Possession</h2>
+      <div class="stats">
+        <div class="stat acc"><b id="sA">0</b><span>A — exploitable space</span></div>
+        <div class="stat"><b id="sHole">0</b><span>of A in empty holes (no attacker within 5 ft)</span></div>
+        <div class="stat"><b id="sClock">24.0</b><span>shot clock</span></div>
+      </div>
+    </div>
+    <div class="panel">
+      <h2>On the floor</h2>
+      <div class="roster" id="roster"></div>
+    </div>
+    <div class="panel">
+      <h2>Marked actions</h2>
+      <ul class="events" id="events"></ul>
+    </div>
+  </aside>
+</div>
+
+<div class="chart-wrap">
+  <canvas id="chart" width="1400" height="230" aria-label="Exploitable space over the possession"></canvas>
+  <div class="controls">
+    <button class="tb" id="play">Play</button>
+    <button class="tb secondary" id="step">Step</button>
+    <input type="range" id="scrub" min="0" max="0" value="0" step="1" aria-label="Scrub through the possession">
+    <span class="num" id="tLabel" style="font-size:20px;font-variant-numeric:tabular-nums">0.0 s</span>
+  </div>
+  <div class="legend">
+    <span><i style="background:var(--accent)"></i>A(t), probabilistic field</span>
+    <span><i style="background:var(--vor)"></i>Voronoi baseline</span>
+    <span><span class="heatbar"></span>H = P(offense first) × open-shot value</span>
+    <span><span class="dot" style="background:var(--off)"></span> offense &nbsp; <span class="dot" style="background:var(--def)"></span> defense &nbsp; <span class="dot" style="background:var(--ball)"></span> ball &nbsp; ring = ball handler</span>
+  </div>
+</div>
+
+<script src="data.js"></script>
+<script>
+(function () {
+  const D = window.GAME_DATA;
+  const nx = D.nx, ny = D.ny;
+  const b64 = s => Uint8Array.from(atob(s), c => c.charCodeAt(0));
+  const V = b64(D.V);
+  const HL = 91.86 / 2, HW = 49.21 / 2, RIMX = -40.76, THREE = 22.15, CORNER = 21.65, FT = -(HL - 19.03), PAINT = 8.04;
+
+  // magma-like colormap
+  const stops = [[0,[0,0,4]],[0.2,[59,15,112]],[0.4,[140,41,129]],[0.6,[222,73,104]],[0.8,[254,159,109]],[1,[252,253,191]]];
+  const LUT = new Uint8ClampedArray(256 * 3);
+  for (let i = 0; i < 256; i++) {
+    const v = i / 255; let k = 0; while (k < stops.length - 2 && v > stops[k + 1][0]) k++;
+    const [a, ca] = stops[k], [b, cb] = stops[k + 1], f = (v - a) / (b - a);
+    for (let c = 0; c < 3; c++) LUT[i * 3 + c] = ca[c] + (cb[c] - ca[c]) * f;
+  }
+
+  const teams = Object.values(D.teams);
+  document.getElementById('gameTeams').textContent = teams.join(' vs ');
+
+  const court = document.getElementById('court'), cx = court.getContext('2d');
+  const chart = document.getElementById('chart'), gx = chart.getContext('2d');
+  const W = court.width, Hh = court.height, PAD = 24;
+  // attack frame: x in [-HL, 0] -> canvas horizontal, y in [-HW, HW] -> vertical (positive y = offensive left, drawn at top)
+  const sx = (W - 2 * PAD) / HL, sy = (Hh - 2 * PAD) / (2 * HW);
+  const X = x => PAD + (x + HL) * sx, Y = y => PAD + (HW - y) * sy;
+
+  const heat = document.createElement('canvas'); heat.width = nx; heat.height = ny;
+  const hctx = heat.getContext('2d'); const img = hctx.createImageData(nx, ny);
+
+  let ch = null, fi = 0, playing = false, timer = null, C = null;
+  const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+
+  function drawCourt() {
+    cx.strokeStyle = css('--court'); cx.lineWidth = 2.2; cx.lineJoin = 'round';
+    cx.strokeRect(X(-HL), Y(HW), HL * sx, 2 * HW * sy);
+    cx.strokeRect(X(-HL), Y(PAINT), (FT + HL) * sx, 2 * PAINT * sy);
+    cx.beginPath(); cx.arc(X(FT), Y(0), 6 * sx, -Math.PI / 2, Math.PI / 2); cx.stroke();
+    cx.beginPath(); cx.arc(X(RIMX), Y(0), 0.75 * sx, 0, 2 * Math.PI); cx.stroke();
+    cx.beginPath(); cx.moveTo(X(-HL + 3.94), Y(3)); cx.lineTo(X(-HL + 3.94), Y(-3)); cx.stroke();
+    cx.beginPath(); cx.arc(X(0), Y(0), 5.9 * sx, Math.PI / 2, 3 * Math.PI / 2); cx.stroke();
+    cx.beginPath(); cx.arc(X(RIMX), Y(0), 4.1 * sx, -Math.PI / 2, Math.PI / 2); cx.stroke();
+    const ang = Math.asin(CORNER / THREE), xm = RIMX + Math.sqrt(THREE * THREE - CORNER * CORNER);
+    cx.beginPath(); cx.arc(X(RIMX), Y(0), THREE * sx, -ang, ang); cx.stroke();
+    cx.beginPath(); cx.moveTo(X(-HL), Y(CORNER)); cx.lineTo(X(xm), Y(CORNER)); cx.moveTo(X(-HL), Y(-CORNER)); cx.lineTo(X(xm), Y(-CORNER)); cx.stroke();
+  }
+
+  // marching-squares contour of H at level lv, drawn on the court canvas
+  function drawContour(Hv, lv) {
+    cx.strokeStyle = 'rgba(255,255,255,0.85)'; cx.lineWidth = 1.3; cx.beginPath();
+    const gxs = D.gridX, gys = D.gridY, at = (i, j) => Hv[i * ny + j];
+    const lerp = (a, b, va, vb) => a + (lv - va) / (vb - va) * (b - a);
+    for (let i = 0; i < nx - 1; i++) for (let j = 0; j < ny - 1; j++) {
+      const v0 = at(i, j), v1 = at(i + 1, j), v2 = at(i + 1, j + 1), v3 = at(i, j + 1);
+      const idx = (v0 > lv) | ((v1 > lv) << 1) | ((v2 > lv) << 2) | ((v3 > lv) << 3);
+      if (idx === 0 || idx === 15) continue;
+      const pts = [];
+      if ((idx & 1) !== ((idx >> 1) & 1)) pts.push([lerp(gxs[i], gxs[i + 1], v0, v1), gys[j]]);
+      if (((idx >> 1) & 1) !== ((idx >> 2) & 1)) pts.push([gxs[i + 1], lerp(gys[j], gys[j + 1], v1, v2)]);
+      if (((idx >> 2) & 1) !== ((idx >> 3) & 1)) pts.push([lerp(gxs[i], gxs[i + 1], v3, v2), gys[j + 1]]);
+      if (((idx >> 3) & 1) !== (idx & 1)) pts.push([gxs[i], lerp(gys[j], gys[j + 1], v0, v3)]);
+      for (let k = 0; k + 1 < pts.length; k += 2) { cx.moveTo(X(pts[k][0]), Y(pts[k][1])); cx.lineTo(X(pts[k + 1][0]), Y(pts[k + 1][1])); }
+    }
+    cx.stroke();
+  }
+
+  function drawFrame() {
+    const f = ch.frames[fi], off = fi * nx * ny;
+    const holesOnly = document.getElementById('holesOnly').checked;
+    const Hv = new Float32Array(nx * ny);
+    for (let i = 0; i < nx; i++) for (let j = 0; j < ny; j++) {
+      const k = i * ny + j; // grid is (x-major); image row = ny-1-j (positive y at top)
+      let hv = (C[off + k] / 255) * (V[k] / 255) * 1.6;
+      if (holesOnly) { const qx = D.gridX[i], qy = D.gridY[j]; let dm = 1e9;
+        for (const p of f.o) { const dd = (p[0] - qx) ** 2 + (p[1] - qy) ** 2; if (dd < dm) dm = dd; }
+        if (dm < 25) hv = 0; }
+      Hv[k] = hv;
+      const h = Math.min(255, Math.round(hv / 1.3 * 255));
+      const p = ((ny - 1 - j) * nx + i) * 4;
+      img.data[p] = LUT[h * 3]; img.data[p + 1] = LUT[h * 3 + 1]; img.data[p + 2] = LUT[h * 3 + 2]; img.data[p + 3] = 255;
+    }
+    hctx.putImageData(img, 0, 0);
+    cx.fillStyle = css('--heat-bg'); cx.fillRect(0, 0, W, Hh);
+    cx.imageSmoothingEnabled = true;
+    cx.drawImage(heat, X(-HL), Y(HW), HL * sx, 2 * HW * sy);
+    drawCourt();
+    if (document.getElementById('showContour').checked) drawContour(Hv, 0.5);
+    if (document.getElementById('showRadius').checked) {
+      cx.setLineDash([4, 5]); cx.strokeStyle = 'rgba(120,180,255,0.7)'; cx.lineWidth = 1.2;
+      f.o.forEach(p => { cx.beginPath(); cx.arc(X(p[0]), Y(p[1]), 5 * sx, 0, 2 * Math.PI); cx.stroke(); });
+      cx.setLineDash([]);
+    }
+    const dot = (p, color, r, ring) => {
+      cx.beginPath(); cx.arc(X(p[0]), Y(p[1]), r, 0, 2 * Math.PI); cx.fillStyle = color; cx.fill();
+      cx.lineWidth = 2; cx.strokeStyle = '#fff'; cx.stroke();
+      if (ring) { cx.beginPath(); cx.arc(X(p[0]), Y(p[1]), r + 7, 0, 2 * Math.PI); cx.lineWidth = 3; cx.strokeStyle = '#ffe66d'; cx.stroke(); }
+    };
+    f.d.forEach(p => dot(p, css('--def'), 11, false));
+    f.o.forEach((p, i) => dot(p, css('--off'), 11, i === f.h));
+    dot(f.b, css('--ball'), 6, false);
+    cx.font = '600 22px "Barlow Condensed", sans-serif'; cx.fillStyle = 'rgba(255,255,255,0.85)'; cx.textAlign = 'left';
+    cx.fillText(`t = ${f.t.toFixed(1)} s`, PAD + 8, Hh - PAD - 10);
+    cx.textAlign = 'right'; cx.fillText(`A = ${f.A}`, W - PAD - 8, Hh - PAD - 10);
+    document.getElementById('sA').textContent = f.A;
+    document.getElementById('sHole').textContent = f.A ? Math.round(100 * f.hole / f.A) + '%' : '—';
+    document.getElementById('sClock').textContent = f.sc == null ? '—' : f.sc.toFixed(1);
+    document.getElementById('tLabel').textContent = f.t.toFixed(1) + ' s';
+    document.getElementById('scrub').value = fi;
+    const items = document.querySelectorAll('#events li');
+    items.forEach(li => li.classList.toggle('now', Math.abs(+li.dataset.t - f.t) <= 0.6));
+    drawChart();
+  }
+
+  function drawChart() {
+    const w = chart.width, h = chart.height, L = 54, R = 16, T = 14, B = 34;
+    gx.clearRect(0, 0, w, h);
+    const fr = ch.frames, tmax = fr[fr.length - 1].t, amax = Math.max(...fr.map(f => Math.max(f.A, f.Av))) * 1.08 || 1;
+    const tx = t => L + (t / tmax) * (w - L - R), ty = a => T + (1 - a / amax) * (h - T - B);
+    gx.strokeStyle = css('--line'); gx.lineWidth = 1; gx.fillStyle = css('--muted'); gx.font = '13px "IBM Plex Sans", sans-serif';
+    const step = amax > 600 ? 200 : 100;
+    for (let a = 0; a <= amax; a += step) { gx.beginPath(); gx.moveTo(L, ty(a)); gx.lineTo(w - R, ty(a)); gx.stroke(); gx.textAlign = 'right'; gx.fillText(a, L - 6, ty(a) + 4); }
+    for (let t = 0; t <= tmax; t += 2) { gx.textAlign = 'center'; gx.fillText(t + ' s', tx(t), h - 10); }
+    ch.events.forEach(e => { gx.strokeStyle = css('--line'); gx.beginPath(); gx.moveTo(tx(e.t), T); gx.lineTo(tx(e.t), h - B); gx.stroke();
+      gx.save(); gx.translate(tx(e.t) + 4, T + 2); gx.rotate(Math.PI / 2); gx.textAlign = 'left'; gx.fillStyle = css('--muted'); gx.font = '11px "IBM Plex Sans", sans-serif'; gx.fillText(e.kind.replace('_', ' '), 0, 0); gx.restore(); });
+    const line = (key, color, wdt) => { gx.beginPath(); fr.forEach((f, i) => i ? gx.lineTo(tx(f.t), ty(f[key])) : gx.moveTo(tx(f.t), ty(f[key]))); gx.strokeStyle = color; gx.lineWidth = wdt; gx.stroke(); };
+    line('Av', css('--vor'), 1.5); line('A', css('--accent'), 3);
+    const f = fr[fi]; gx.beginPath(); gx.arc(tx(f.t), ty(f.A), 6, 0, 2 * Math.PI); gx.fillStyle = css('--accent'); gx.fill();
+    gx.strokeStyle = css('--ink'); gx.lineWidth = 1; gx.beginPath(); gx.moveTo(tx(f.t), T); gx.lineTo(tx(f.t), h - B); gx.stroke();
+  }
+
+  function loadChance(i) {
+    ch = D.chances[i]; C = b64(ch.C); fi = 0; stop();
+    document.querySelectorAll('.chip').forEach((c, j) => c.setAttribute('aria-pressed', j === i));
+    document.getElementById('chanceTitle').textContent = `Q${ch.period} · ${ch.clock}s left · ${ch.off} on offense · ${ch.outcome}${ch.pts ? ' +' + ch.pts : ''}`;
+    const ro = document.getElementById('roster'); ro.innerHTML = '';
+    ch.offNames.forEach(n => { const d = document.createElement('div'); d.innerHTML = `<span class="dot" style="background:var(--off)"></span>${n}`; ro.appendChild(d); });
+    ch.defNames.forEach(n => { const d = document.createElement('div'); d.innerHTML = `<span class="dot" style="background:var(--def)"></span>${n}`; ro.appendChild(d); });
+    const ul = document.getElementById('events'); ul.innerHTML = '';
+    ch.events.forEach(e => { const li = document.createElement('li'); li.dataset.t = e.t; li.innerHTML = `<span>${e.t.toFixed(1)} s</span><span><span class="k">${e.kind.replace('_', ' ')}</span> <span class="w">${e.who}</span></span>`;
+      li.addEventListener('click', () => { fi = nearest(e.t); drawFrame(); }); ul.appendChild(li); });
+    const s = document.getElementById('scrub'); s.max = ch.frames.length - 1; s.value = 0;
+    drawFrame();
+  }
+  const nearest = t => ch.frames.reduce((bi, f, i) => Math.abs(f.t - t) < Math.abs(ch.frames[bi].t - t) ? i : bi, 0);
+
+  function tick() { fi = (fi + 1) % ch.frames.length; drawFrame(); }
+  function play() { playing = true; document.getElementById('play').textContent = 'Pause'; timer = setInterval(tick, 200); }
+  function stop() { playing = false; document.getElementById('play').textContent = 'Play'; clearInterval(timer); }
+  document.getElementById('play').addEventListener('click', () => playing ? stop() : play());
+  document.getElementById('step').addEventListener('click', () => { stop(); tick(); });
+  document.getElementById('scrub').addEventListener('input', e => { stop(); fi = +e.target.value; drawFrame(); });
+
+  ['holesOnly', 'showRadius', 'showContour'].forEach(id => document.getElementById(id).addEventListener('change', drawFrame));
+  const chips = document.getElementById('chips');
+  D.chances.forEach((c, i) => { const b = document.createElement('button'); b.className = 'chip'; b.type = 'button';
+    const acts = [...new Set(c.events.map(e => e.kind).filter(k => k !== 'pass' && k !== 'shot'))].map(k => k.replace('_', ' ')).join(', ');
+    b.textContent = `Q${c.period} ${c.clock}s · ${c.off.split(' ').slice(-1)[0]} · ${c.outcome}`; b.title = acts;
+    b.addEventListener('click', () => loadChance(i)); chips.appendChild(b); });
+  loadChance(1);
+  matchMedia('(prefers-color-scheme: dark)').addEventListener('change', drawFrame);
+})();
+</script>

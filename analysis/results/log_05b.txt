@@ -1,0 +1,7 @@
+screen_opens_hole: game 188630 pick-188630-4-95 frame 91657 pre=240.9 post=467.6 gain=329.5 half_life=inf rendered=True
+offball_screen_opens_hole: game 114243 off_ball_screen-114243-4-124 frame 116954 pre=184.6 post=310.4 gain=264.7 half_life=1.1999999999999997 rendered=True
+drive_relocates_hole: game 188630 drive-188630-1-13 frame 24725 pre=162.7 post=293.8 gain=343.9 half_life=inf rendered=True
+skip_pass_exploits_hole: game 184439 pass-184439-4-351 frame 95640 pre=318.9 post=442.3 gain=167.6 half_life=0.9999999999999996 rendered=True
+closeout_repairs_hole: game 179612 closeout-179612-3-11 frame 83057 pre=400.4 post=239.1 gain=-20.3 half_life=nan rendered=True
+made_shot_no_geometric_advantage: game 114086 shot-114086-3-75 frame 78305 pre=216.2 post=273.2 gain=74.7 half_life=inf rendered=True
+unrewarded_screen_big_advantage: game 184439 off_ball_screen-184439-3-98 frame 88975 pre=95.2 post=244.0 gain=258.1 half_life=1.3999999999999995 rendered=True

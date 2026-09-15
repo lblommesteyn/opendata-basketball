@@ -1,0 +1,15 @@
+{
+ "corr": 0.9872809527759642,
+ "mae": 0.014367088675498962,
+ "p99": 0.2365225356817243,
+ "hard_agree": 0.9808581041112097,
+ "n_frames": 48,
+ "note": "Clark moment-matching vs 400-sample Monte Carlo ground truth on 16 real frames",
+ "clark_vs_mc_corr": 0.9973,
+ "clark_vs_mc_mae": 0.016,
+ "clark_vs_mc_p99": 0.067,
+ "clark_vs_mc_max": 0.165,
+ "clark_A_corr_vs_mc": 0.9998,
+ "integral_0p1s_A_corr_vs_clark": 0.7462700043451953,
+ "integral_fine_vs_mc_corr": 0.9976
+}
