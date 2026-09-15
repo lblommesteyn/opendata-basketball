@@ -9,11 +9,11 @@
 | **It moves the way basketball says** | Relative to random no-action moments, on-ball screens create +50 units and drives +44 (both $p < 10^{-30}$), off-ball screens +12, handoffs +8; passes -8; closeouts, the one defensive action, **-16**. Nine-tenths of what a pick or drive creates is *empty* space nobody stands in yet. |
 | **The baselines do not** | Euclidean Voronoi scores a closeout as an offensive *gain* (+23), handoffs as a loss (-20); nearest-defender distance to the ball handler barely moves for any action; convex hull moves the wrong way. Only motion-aware control recovers the coaching ordering. |
 | **One currency for coverages** | Fighting over a screen concedes +59 to the offense; switching +36; going under +29. A show concedes more than a drop; a step-up screen (+65) more than a wing screen (+27); a whipped off-ball screen nothing. |
-| **It predicts what happens next** | Leave-one-game-out, the field adds +0.04 AUC to a spacing/defender-distance baseline for a shot or an open shot in the next 3 s (logistic), and still adds to a gradient-boosted model for blow-bys (+0.03 AUC) and next-shot quality (+0.03 $R^2$). It does not predict the points the chance ends with (nothing does, $R^2 < 0.005$). |
+| **It predicts what happens next** | Leave-one-game-out, the field adds +0.04 AUC to a spacing/defender-distance baseline for a shot or an open shot in the next 3 s (logistic), and still adds to a gradient-boosted model for blow-bys (+0.015 AUC) and next-shot quality (+0.03 $R^2$). It does not predict the points the chance ends with (nothing does, $R^2 < 0.005$). |
 | **It is robust** | Resampling every position from its stated tracking error, and varying every movement-model constant, the threshold and the grid, keep per-event changes correlated above 0.96 with the reference and the action ranking at or near 1.0. Swapping the control model for Voronoi drops that to 0.39. |
 | **What it cannot do** | A skip pass into an existing hole scores negative: the field values space, not the ball. Advantage created does not predict points scored on the chance. Ten games. |
 
-The data are the ten public SkillCorner Liga ACB 2025-26 games (25 Hz tracking, 77,639 half-court frames analysed at 5 Hz, 10,237 marked actions). Everything is reproducible from `scripts/holes/`.
+The data are the ten public SkillCorner Liga ACB 2025-26 games (25 Hz tracking, 76,423 half-court frames analysed at 5 Hz, 10,237 marked actions). Everything is reproducible from `scripts/holes/`.
 
 
 ### 2. The Question
@@ -44,7 +44,7 @@ Two simpler models are carried as baselines throughout: **Euclidean Voronoi** (n
 
 **Value.** The value of controlling $q$ is the expected points of an *open* shot from $q$. We use a parametric map (rim 1.35 pts falling to 0.85 at 15 ft, 1.05 at the three-point line falling to 0.35 at 35 ft, zero in the backcourt) and an empirical map: open and lightly-contested shots from the other nine games, kernel-smoothed (5 ft bandwidth, mirrored across the court axis, two-point and three-point regions kept separate) and shrunk toward the parametric map where data are thin. The empirical map is refitted leave-one-game-out so that no game's own shots inform its field. A third variant multiplies the value by a ball-reachability discount, $\exp(-(d_{\mathrm{ball}} - 8)_+/25)$.
 
-**The exploitable-space field and its summaries.** $H(q,t) = C_O(q,t)\,V(q)$ on a 1 ft grid of the offensive half court, sampled at 5 Hz on live half-court frames (clock running, chance already in the frontcourt): 77,639 frames across the ten games. The primary scalar is
+**The exploitable-space field and its summaries.** $H(q,t) = C_O(q,t)\,V(q)$ on a 1 ft grid of the offensive half court, sampled at 5 Hz on live half-court frames (clock running, chance already in the frontcourt): 76,423 frames across the ten games (after excluding the blind frames described below). The primary scalar is
 
 $$
 A(t) = \int \max\!\left(0,\, H(q,t) - \tau\right) dq, \qquad \tau = 0.5,
@@ -101,12 +101,12 @@ A geometric measure that merely relabels court position would add nothing to a m
 
 | Target (next 3 s) | rate | ball only | baseline | + Voronoi | + kinematic | + probabilistic | + prob. + 1 s dynamics | prob. only |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Any shot | 0.24 | 0.662 | 0.723 | 0.731 | 0.741 | **0.767** | 0.768 | 0.686 |
-| Open / light-contest shot | 0.06 | 0.608 | 0.700 | 0.711 | 0.723 | **0.742** | 0.743 | 0.662 |
-| Shot within 6 ft of the rim | 0.08 | 0.726 | 0.777 | 0.778 | 0.786 | **0.798** | 0.801 | 0.725 |
-| Blow-by | 0.02 | 0.599 | 0.623 | 0.613 | 0.631 | 0.618 | 0.621 | 0.596 |
-| Assist opportunity | 0.11 | 0.539 | 0.607 | 0.615 | 0.618 | **0.652** | 0.652 | 0.624 |
-| Paint touch | 0.14 | 0.519 | 0.575 | 0.579 | 0.583 | **0.616** | 0.616 | 0.592 |
+| Any shot | 0.24 | 0.660 | 0.722 | 0.731 | 0.741 | **0.766** | 0.768 | 0.685 |
+| Open / light-contest shot | 0.06 | 0.606 | 0.699 | 0.712 | 0.723 | **0.740** | 0.741 | 0.660 |
+| Shot within 6 ft of the rim | 0.08 | 0.724 | 0.775 | 0.776 | 0.785 | **0.797** | 0.800 | 0.725 |
+| Blow-by | 0.02 | 0.599 | 0.619 | 0.607 | 0.628 | 0.615 | 0.618 | 0.592 |
+| Assist opportunity | 0.11 | 0.539 | 0.606 | 0.615 | 0.617 | **0.651** | 0.652 | 0.623 |
+| Paint touch | 0.14 | 0.523 | 0.578 | 0.583 | 0.585 | **0.617** | 0.616 | 0.590 |
 
 Table 3: leave-one-game-out AUC, logistic regression. Per-game standard deviations of the AUC are 0.01-0.04.
 
@@ -116,17 +116,17 @@ A gradient-boosted model narrows the gap, as it should: with enough trees it can
 
 | Target (next 3 s) | baseline | + Voronoi | + kinematic | + probabilistic | + prob. + dynamics |
 | --- | --- | --- | --- | --- | --- |
-| Any shot | 0.822 | 0.822 | 0.825 | 0.825 | 0.827 |
-| Open / light-contest shot | 0.752 | 0.756 | 0.761 | 0.760 | 0.761 |
-| Shot within 6 ft of the rim | 0.840 | 0.842 | 0.849 | 0.847 | 0.851 |
-| Blow-by | 0.596 | 0.598 | 0.601 | **0.623** | 0.621 |
-| Assist opportunity | 0.687 | 0.688 | 0.689 | 0.689 | 0.691 |
-| Paint touch | 0.621 | 0.613 | 0.615 | 0.622 | 0.624 |
-| Quality of the next shot ($R^2$) | 0.168 | 0.186 | 0.187 | **0.201** | 0.204 |
+| Any shot | 0.820 | 0.822 | 0.824 | 0.825 | 0.827 |
+| Open / light-contest shot | 0.748 | 0.754 | 0.759 | 0.759 | 0.760 |
+| Shot within 6 ft of the rim | 0.841 | 0.840 | 0.846 | 0.847 | 0.849 |
+| Blow-by | 0.599 | 0.596 | 0.600 | **0.614** | 0.614 |
+| Assist opportunity | 0.688 | 0.687 | 0.687 | 0.689 | 0.691 |
+| Paint touch | 0.613 | 0.614 | 0.615 | 0.620 | 0.621 |
+| Quality of the next shot ($R^2$) | 0.166 | 0.181 | 0.189 | **0.200** | 0.203 |
 
-Table 4: the same, with gradient boosting (AUC; last row $R^2$ on SkillCorner `shotQuality` of the next shot, $n = 18{,}545$ frames with a shot in the window).
+Table 4: the same, with gradient boosting (AUC; last row $R^2$ on SkillCorner `shotQuality` of the next shot, $n = 18{,}378$ frames with a shot in the window).
 
-Even here the field survives: blow-bys (+0.027 AUC, the one target that is *about* a defender being beaten to a spot) and the quality of the upcoming shot (+0.033 $R^2$; +0.015 over Voronoi) are better predicted with the probabilistic field, and nothing is predicted worse. Adding the one-second change in $A$ adds essentially nothing on top of the level, so the level of exploitable space, not its momentum, is what carries the information.
+Even here the field survives: blow-bys (+0.015 AUC, the one target that is *about* a defender being beaten to a spot) and the quality of the upcoming shot (+0.034 $R^2$; +0.019 over Voronoi) are better predicted with the probabilistic field, and nothing is predicted worse. Adding the one-second change in $A$ adds essentially nothing on top of the level, so the level of exploitable space, not its momentum, is what carries the information.
 
 Two negative results belong in the record. The points scored on the chance are not predictable from any frame-level feature set ($R^2 \le 0.004$ for every model): what happens in the next three seconds is geometric, what happens by the end of the chance is not. And blow-bys are rare (2.3% of frames) and noisy enough that the linear model does not separate the feature sets.
 
