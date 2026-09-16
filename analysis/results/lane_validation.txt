@@ -1,0 +1,24 @@
+drives with lane features at t0: 657; null frames: 1200
+lane openness: drive start median 0.262 (mean 0.282); 0.4 s before 0.248; random frames 0.307 (mean 0.314)
+  Mann-Whitney drive-start vs null p = 1.81e-04
+driver goes toward the bottleneck side: 0.507 of 615 drives (binomial p vs 0.5 = 7.47e-01)
+  same, measured 0.4 s BEFORE the drive starts: 0.529 of 622 (p = 1.60e-01)
+openness | blowby: 0.273 (n=149) vs no blowby 0.285 (n=508), MW p=0.607
+  endType=interiorPass     n=  63 openness mean=0.271 median=0.259
+  endType=kickout          n= 184 openness mean=0.265 median=0.244
+  endType=pullout          n=  13 openness mean=0.292 median=0.254
+  endType=pullup           n=  96 openness mean=0.301 median=0.296
+  endType=shotNearBasket   n= 244 openness mean=0.294 median=0.264
+  endType=stoppage         n=  29 openness mean=0.259 median=0.267
+  endType=turnover         n=  28 openness mean=0.269 median=0.277
+openness vs points on the chance: spearman=-0.075
+LOGO AUC blow-by                rate=0.23  ndd=0.615  ndd+rim=0.599  openness=0.393  openness+bn_dist=0.357  all=0.586
+LOGO AUC shot near basket       rate=0.37  ndd=0.525  ndd+rim=0.526  openness=0.494  openness+bn_dist=0.502  all=0.518
+LOGO AUC kick-out               rate=0.28  ndd=0.386  ndd+rim=0.376  openness=0.497  openness+bn_dist=0.490  all=0.465
+LOGO AUC points > 0 on chance   rate=0.44  ndd=0.435  ndd+rim=0.463  openness=0.527  openness+bn_dist=0.517  all=0.502
+== follow-up checks ==
+bottleneck distance from handler at drive start: median 26.5 ft (p25 20.0, p75 32.4); never within 5 ft -> the bottleneck sits at the rim protection, not on the ball
+spearman(openness, handler nearest-defender distance) = 0.09 -> a different quantity from on-ball pressure
+openness 0.2 s before drive END: rim shot 0.533, interior pass 0.511, kick-out 0.434, pull-up 0.424, turnover 0.373; rim-shot vs kick-out MW p = 1e-4
+every drive raises openness (+0.17 to +0.23 start->end); the change does not differ by blow-by (p = 0.32)
+verdict: lane openness describes the state of the rim protection and how a drive changed it; it does not forecast a drive's outcome from its start, and drivers do not choose the bottleneck side
